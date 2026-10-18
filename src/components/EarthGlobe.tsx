@@ -51,6 +51,31 @@ export function EarthGlobe() {
     earth.rotation.y = -1.75;
     scene.add(earth);
 
+    // --- Atmosphere glow halo around Earth ---
+    const atmosphereGeometry = new THREE.SphereGeometry(1.12, 64, 64);
+    const atmosphereMaterial = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.0);
+          gl_FragColor = vec4(0.35, 0.55, 1.0, 1.0) * intensity;
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      side: THREE.BackSide,
+      transparent: true,
+      depthWrite: false,
+    });
+    const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+    scene.add(atmosphere);
+
     // --- Partner location markers ---
     // Convert lat/lon to 3D sphere position
     const latLonToVec3 = (lat: number, lon: number, radius: number) => {
@@ -279,6 +304,8 @@ export function EarthGlobe() {
       container.removeChild(renderer.domElement);
       earthGeometry.dispose();
       earthMaterial.dispose();
+      atmosphereGeometry.dispose();
+      atmosphereMaterial.dispose();
       moonGeometry.dispose();
       moonMaterial.dispose();
       moonTexture.dispose();
