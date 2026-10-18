@@ -21,56 +21,30 @@ export function EarthGlobe() {
     container.appendChild(renderer.domElement);
 
     const textureLoader = new THREE.TextureLoader();
-    const nightTexture = textureLoader.load('/textures/earth_night.png');
-    const bumpTexture = textureLoader.load('/textures/earth_normal.jpg');
-    const specTexture = textureLoader.load('/textures/earth_specular.jpg');
-    const moonTexture = textureLoader.load('/textures/moon.jpg');
-
-    // --- Earth with custom shader: vibrant oceans + emissive night lights ---
-    // We build a day texture from earth.jpg, color-corrected so oceans are vivid blue
-    const dayCanvas = document.createElement('canvas');
-    const dayCtx = dayCanvas.getContext('2d')!;
-    const dayImg = new Image();
-    dayImg.crossOrigin = 'anonymous';
-    dayImg.src = '/textures/earth.jpg';
-
-    const dayTexture = new THREE.Texture(dayCanvas);
-    dayTexture.colorSpace = THREE.SRGBColorSpace;
-
-    dayImg.onload = () => {
-      dayCanvas.width = dayImg.width;
-      dayCanvas.height = dayImg.height;
-      dayCtx.drawImage(dayImg, 0, 0);
-      const imgData = dayCtx.getImageData(0, 0, dayCanvas.width, dayCanvas.height);
-      const d = imgData.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const r = d[i];
-        const g = d[i + 1];
-        const b = d[i + 2];
-        // Detect ocean pixels: blue-dominant and not too bright (not clouds/ice)
-        if (b > r && b > g && b < 180) {
-          // Boost ocean to vivid blue
-          d[i] = Math.min(255, r * 0.3);      // suppress red
-          d[i + 1] = Math.min(255, g * 0.7);  // moderate green
-          d[i + 2] = Math.min(255, b * 1.5 + 40); // boost blue strongly
-        }
-      }
-      dayCtx.putImageData(imgData, 0, 0);
-      dayTexture.needsUpdate = true;
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+    const loadTex = (url: string) => {
+      const t = textureLoader.load(url);
+      t.anisotropy = maxAniso;
+      return t;
     };
+    const nightTexture = loadTex('/textures/earth_night.png');
+    const bumpTexture = loadTex('/textures/earth_normal.jpg');
+    const specTexture = loadTex('/textures/earth_specular.jpg');
+    const moonTexture = loadTex('/textures/moon.jpg');
 
-    // --- Earth (day map with vibrant oceans, night lights blended in) ---
+    // --- Earth in night view: dark surface with glowing city lights ---
     const earthGeometry = new THREE.SphereGeometry(1, 128, 128);
     const earthMaterial = new THREE.MeshStandardMaterial({
-      map: dayTexture,
+      map: nightTexture,
       bumpMap: bumpTexture,
-      bumpScale: 0.06,
+      bumpScale: 0.08,
       roughnessMap: specTexture,
-      roughness: 0.5,
-      metalness: 0.15,
+      roughness: 0.6,
+      metalness: 0.1,
+      color: new THREE.Color(0x2a3a55),
       emissiveMap: nightTexture,
       emissive: new THREE.Color(0xffd9a0),
-      emissiveIntensity: 0.8,
+      emissiveIntensity: 1.4,
     });
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     // Set initial rotation so Turkey (lon=35) is centered facing camera
@@ -161,18 +135,19 @@ export function EarthGlobe() {
 
     earth.add(markerGroup);
 
-    // --- Moon ---
+    // --- Moon: bright white with prominent craters ---
     const moonRadius = 0.32;
-    const moonGeometry = new THREE.SphereGeometry(moonRadius, 64, 64);
+    const moonGeometry = new THREE.SphereGeometry(moonRadius, 128, 128);
     const moonMaterial = new THREE.MeshStandardMaterial({
       map: moonTexture,
       bumpMap: moonTexture,
-      bumpScale: 0.08,
-      roughness: 0.5,
+      bumpScale: 0.25,
+      roughness: 0.85,
       metalness: 0.0,
+      color: new THREE.Color(0xffffff),
       emissive: new THREE.Color(0xffffff),
       emissiveMap: moonTexture,
-      emissiveIntensity: 0.7,
+      emissiveIntensity: 1.2,
     });
     const moon = new THREE.Mesh(moonGeometry, moonMaterial);
     scene.add(moon);
@@ -288,7 +263,6 @@ export function EarthGlobe() {
       raf = requestAnimationFrame(animate);
     };
     animate();
-
     const onResize = () => {
       const newW = container.clientWidth;
       const newH = container.clientHeight;
@@ -311,7 +285,6 @@ export function EarthGlobe() {
       starGeo.dispose();
       starMat.dispose();
       nightTexture.dispose();
-      dayTexture.dispose();
       bumpTexture.dispose();
       specTexture.dispose();
       renderer.dispose();
