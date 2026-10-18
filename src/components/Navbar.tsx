@@ -15,7 +15,6 @@ export function Navbar() {
     { label: t('nav.muhendislik'), href: '#muhendislik' },
     { label: t('nav.projeler'), href: '#projeler' },
     { label: t('nav.isbirligi'), href: '#isbirligi' },
-    { label: t('nav.iletisim'), href: '#iletisim' },
   ];
 
   const langs: { code: Lang; label: string }[] = [

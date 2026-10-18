@@ -1,16 +1,16 @@
-import { Navbar } from '@/components/Navbar';
-import { Hero } from '@/components/Hero';
-import { Services } from '@/components/Services';
-import { Stats } from '@/components/Stats';
-import { About } from '@/components/About';
-import { Engineering } from '@/components/Engineering';
-import { SmartCity } from '@/components/SmartCity';
-import { Environment } from '@/components/Environment';
-import { Projects } from '@/components/Projects';
-import { References } from '@/components/References';
-import { Partnerships } from '@/components/Partnerships';
-import { Contact } from '@/components/Contact';
-import { Footer } from '@/components/Footer';
+import { Navbar } from '@/components/Navbar.tsx';
+import { Hero } from '@/components/Hero.tsx';
+import { Services } from '@/components/Services.tsx';
+import { Stats } from '@/components/Stats.tsx';
+import { About } from '@/components/About.tsx';
+import { Engineering } from '@/components/Engineering.tsx';
+import { SmartCity } from '@/components/SmartCity.tsx';
+import { Environment } from '@/components/Environment.tsx';
+import { Projects } from '@/components/Projects.tsx';
+import { References } from '@/components/References.tsx';
+import { Partnerships } from '@/components/Partnerships.tsx';
+import { Contact } from '@/components/Contact.tsx';
+import { Footer } from '@/components/Footer.tsx';
 
 export default function App() {
   return (
