@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-liquid-abyss: #243655;
+  --color-liquid-deep: #1d2f4a;
+  --color-liquid-kelp: #2c4368;
+  --color-lavender-phosphor: #b9d0ff;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #243655;
+  color: #b5c1d4;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+}
+
+::selection {
+  background: rgba(185, 208, 255, 0.22);
+  color: #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #1d2f4a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c4368;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #37527a;
+}
+
+/* Aurora gradient text */
+.aurora-text {
+  background: linear-gradient(90deg, #7fa8ff 0%, #b9d0ff 26%, #e5edff 48%, #d2e0ff 89%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.aurora-bg {
+  background: linear-gradient(90deg, #7fa8ff 0%, #b9d0ff 26%, #e5edff 48%, #d2e0ff 89%);
+}
+
+.bioluminescent-bg {
+  background: linear-gradient(90deg, #4f7ff5 0%, #7fa8ff 100%);
+}
+
+/* Glow effect for stats */
+.stat-glow {
+  text-shadow: 0 0 40px rgba(185, 208, 255, 0.28);
+}
+
+/* Glow orb behind globe */
+.particle-orb {
+  background: radial-gradient(circle at 35% 35%, rgba(79, 127, 245, 0.32), rgba(36, 54, 85, 0) 70%);
+}
+
+/* Hover line under nav */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 1px;
+  background: #ffffff;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Card hover lift */
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Grid pattern */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Arrow button */
+.arrow-btn {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.arrow-btn:hover {
+  background-color: rgba(79, 127, 245, 0.5);
+  transform: rotate(0deg);
+}
+.arrow-btn:hover svg {
+  transform: translate(2px, -2px);
+}
+.arrow-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.partner-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.partner-track {
+  animation: partnerMarquee 34s linear infinite;
+}
+
+.partner-marquee:hover .partner-track {
+  animation-play-state: paused;
+}
+
+@keyframes partnerMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== Smart City Viz — Camera-Followed City ===== */
+
+/* Parallax camera pan — far buildings (slow) */
+@keyframes sc-pan-far {
+  from { transform: translateX(0); }
+  to { transform: translateX(-1200px); }
+}
+.sc-pan-far {
+  animation: sc-pan-far 45s linear infinite;
+}
+
+/* Parallax camera pan — near buildings (faster) */
+@keyframes sc-pan-near {
+  from { transform: translateX(0); }
+  to { transform: translateX(-1200px); }
+}
+.sc-pan-near {
+  animation: sc-pan-near 24s linear infinite;
+}
+
+/* AI hub core pulse */
+@keyframes sc-hub-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+.sc-hub-core {
+  animation: sc-hub-pulse 2.5s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Hub rotating rings */
+@keyframes sc-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.sc-hub-ring-1 {
+  animation: sc-ring-spin 25s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.sc-hub-ring-2 {
+  animation: sc-ring-spin 18s linear infinite reverse;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* AI camera scanning cone — oscillating */
+@keyframes sc-scan-cone {
+  0% { transform: rotate(-35deg); }
+  100% { transform: rotate(35deg); }
+}
+.sc-scan-cone {
+  animation: sc-scan-cone 3.5s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+/* Data stream — flowing dashes */
+@keyframes sc-data-stream {
+  from { stroke-dashoffset: 33; }
+  to { stroke-dashoffset: 0; }
+}
+.sc-data-stream {
+  animation: sc-data-stream 1.5s linear infinite;
+}
+
+/* Sensor pulse */
+@keyframes sc-sensor-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.sc-sensor-pulse {
+  animation: sc-sensor-pulse 2s ease-in-out infinite;
+}
+
+/* Sensor expanding ring */
+@keyframes sc-sensor-ring {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+.sc-sensor-ring {
+  animation: sc-sensor-ring 2.5s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Building window glow */
+@keyframes sc-window-glow {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.65; }
+}
+.sc-window {
+  animation: sc-window-glow 4s ease-in-out infinite;
+}
+
+/* AI detection highlight on vehicles */
+@keyframes sc-detect {
+  0%, 75% { opacity: 0; }
+  80% { opacity: 1; }
+  90% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+.sc-detect {
+  animation: sc-detect 5s ease-in-out infinite;
+}
+
+/* Star twinkle */
+@keyframes sc-twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.7; }
+}
+.sc-twinkle {
+  animation: sc-twinkle 3s ease-in-out infinite;
+}
+
+/* REC indicator blink */
+@keyframes sc-rec-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.2; }
+}
+.sc-rec {
+  animation: sc-rec-blink 1.5s steps(1) infinite;
+}
