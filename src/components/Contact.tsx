@@ -4,6 +4,8 @@ import { useReveal } from '@/hooks/useReveal';
 import { useI18n } from '@/i18n';
 import { supabase } from '@/lib/supabase';
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 export function Contact() {
   const { t } = useI18n();
   const { ref, visible } = useReveal<HTMLDivElement>();
@@ -11,9 +13,25 @@ export function Contact() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [honeypot, setHoneypot] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot: bots fill hidden fields; humans don't. Silently drop spam.
+    if (honeypot.trim() !== '') {
+      setSent(true);
+      setForm({ name: '', email: '', company: '', message: '' });
+      setTimeout(() => setSent(false), 5000);
+      return;
+    }
+
+    // Client-side email format validation
+    if (!EMAIL_RE.test(form.email)) {
+      setError(true);
+      return;
+    }
+
     setLoading(true);
     setError(false);
 
@@ -68,6 +86,19 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                {/* Honeypot anti-spam field — hidden from real users via CSS and aria */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                  <label htmlFor="company_website">Website (do not fill)</label>
+                  <input
+                    type="text"
+                    id="company_website"
+                    name="company_website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
                 {error && (
                   <div className="flex items-center gap-3 rounded-small border border-red-400/30 bg-red-400/10 px-4 py-3">
                     <AlertCircle size={18} className="text-red-400 flex-shrink-0" />
