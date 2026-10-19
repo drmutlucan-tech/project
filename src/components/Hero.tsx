@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import { useI18n } from '@/i18n';
 
 const EarthGlobe = lazy(() => import('@/components/EarthGlobe').then((m) => ({ default: m.EarthGlobe })));
@@ -30,21 +29,6 @@ export function Hero() {
             <p className="text-sm text-silver-mist max-w-lg mb-6 animate-fade-up" style={{ animationDelay: '0.15s' }}>
               {t('hero.desc')}
             </p>
-            <div className="flex flex-wrap items-center gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-              <a
-                href="#hizmetler"
-                className="aurora-bg text-liquid-abyss text-[12px] uppercase tracking-[0.1em] font-medium px-6 py-3 rounded-small hover:opacity-90 transition-opacity inline-flex items-center gap-2"
-              >
-                {t('hero.cta1')}
-                <ArrowUpRight size={14} />
-              </a>
-              <a
-                href="#projeler"
-                className="text-[12px] uppercase tracking-[0.1em] text-silver-mist hover:text-platinum transition-colors border-b border-white/20 hover:border-platinum pb-1"
-              >
-                {t('hero.cta2')}
-              </a>
-            </div>
           </div>
         </div>
       </div>
