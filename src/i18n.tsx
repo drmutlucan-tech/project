@@ -254,6 +254,19 @@ const tr: Dict = {
   'footer.top': 'Yukarı Çık',
   'footer.brand_desc': 'Raylı sistemler, havacılık, su teknolojileri, çevre ve akıllı şehir altyapılarında mühendislik, taahhüt ve sistem entegrasyonu çözümleri.',
   'footer.engineering': 'Mühendislik',
+
+  // Legal
+  'legal.privacy': 'Gizlilik Politikası',
+  'legal.terms': 'Kullanım Şartları',
+  'legal.cookies': 'Çerez Politikası',
+  'legal.close': 'Kapat',
+
+  // Cookie banner
+  'cookie.banner_label': 'Çerez onay bildirimi',
+  'cookie.text': 'Sitemizi iyileştirmek için çerezler kullanıyoruz. Zorunlu çerezler her zaman aktiftir; analitik çerezler için onayınıza ihtiyacımız var.',
+  'cookie.link': 'Çerez Politikası',
+  'cookie.accept': 'Kabul Et',
+  'cookie.decline': 'Reddet',
 };
 
 const en: Dict = {
@@ -489,6 +502,19 @@ const en: Dict = {
   'footer.top': 'Back to Top',
   'footer.brand_desc': 'Engineering, contracting, and system integration solutions in rail systems, aviation, water technologies, environment, and smart city infrastructure.',
   'footer.engineering': 'Engineering',
+
+  // Legal
+  'legal.privacy': 'Privacy Policy',
+  'legal.terms': 'Terms of Use',
+  'legal.cookies': 'Cookie Policy',
+  'legal.close': 'Close',
+
+  // Cookie banner
+  'cookie.banner_label': 'Cookie consent notice',
+  'cookie.text': 'We use cookies to improve our site. Necessary cookies are always active; we need your consent for analytics cookies.',
+  'cookie.link': 'Cookie Policy',
+  'cookie.accept': 'Accept',
+  'cookie.decline': 'Decline',
 };
 
 const es: Dict = {
@@ -724,6 +750,19 @@ const es: Dict = {
   'footer.top': 'Volver Arriba',
   'footer.brand_desc': 'Soluciones de ingeniería, contratación e integración de sistemas en sistemas ferroviarios, aviación, tecnologías del agua, medio ambiente e infraestructura de ciudades inteligentes.',
   'footer.engineering': 'Ingeniería',
+
+  // Legal
+  'legal.privacy': 'Política de Privacidad',
+  'legal.terms': 'Términos de Uso',
+  'legal.cookies': 'Política de Cookies',
+  'legal.close': 'Cerrar',
+
+  // Cookie banner
+  'cookie.banner_label': 'Aviso de consentimiento de cookies',
+  'cookie.text': 'Usamos cookies para mejorar nuestro sitio. Las cookies necesarias siempre están activas; necesitamos su consentimiento para cookies analíticas.',
+  'cookie.link': 'Política de Cookies',
+  'cookie.accept': 'Aceptar',
+  'cookie.decline': 'Rechazar',
 };
 
 const zh: Dict = {
@@ -959,6 +998,19 @@ const zh: Dict = {
   'footer.top': '返回顶部',
   'footer.brand_desc': '在轨道系统、航空、水技术、环境和智慧城市基础设施领域提供工程、承包和系统集成解决方案。',
   'footer.engineering': '工程',
+
+  // Legal
+  'legal.privacy': '隐私政策',
+  'legal.terms': '使用条款',
+  'legal.cookies': 'Cookie政策',
+  'legal.close': '关闭',
+
+  // Cookie banner
+  'cookie.banner_label': 'Cookie同意通知',
+  'cookie.text': '我们使用Cookie来改进网站。必要Cookie始终启用;分析Cookie需要您的同意。',
+  'cookie.link': 'Cookie政策',
+  'cookie.accept': '接受',
+  'cookie.decline': '拒绝',
 };
 
 const dicts: Record<Lang, Dict> = { tr, en, es, zh };

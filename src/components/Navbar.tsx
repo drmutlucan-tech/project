@@ -74,6 +74,8 @@ export function Navbar() {
             <button
               onClick={() => setLangOpen(!langOpen)}
               className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] text-silver-mist hover:text-platinum transition-colors"
+              aria-label={t('nav.kurumsal') === 'Hakkımızda' ? 'Dil seçimi' : 'Language selection'}
+              aria-expanded={langOpen}
             >
               <Globe size={14} />
               {lang.toUpperCase()}
@@ -102,7 +104,8 @@ export function Navbar() {
           <button
             onClick={() => setOpen(!open)}
             className="lg:hidden text-platinum p-2"
-            aria-label="Menu"
+            aria-label={open ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-expanded={open}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>

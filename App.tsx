@@ -11,25 +11,28 @@ import { References } from '@/components/References.tsx';
 import { Partnerships } from '@/components/Partnerships.tsx';
 import { Contact } from '@/components/Contact.tsx';
 import { Footer } from '@/components/Footer.tsx';
+import { LegalLayer } from '@/components/LegalLayer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-liquid-abyss text-silver-mist">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Stats />
-        <About />
-        <Engineering />
-        <SmartCity />
-        <Environment />
-        <Projects />
-        <References />
-        <Partnerships />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <LegalLayer>
+      <div className="min-h-screen bg-liquid-abyss text-silver-mist">
+        <Navbar />
+        <main>
+          <Hero />
+          <Services />
+          <Stats />
+          <About />
+          <Engineering />
+          <SmartCity />
+          <Environment />
+          <Projects />
+          <References />
+          <Partnerships />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </LegalLayer>
   );
 }

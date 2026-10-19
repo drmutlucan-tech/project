@@ -1,6 +1,7 @@
 import { ArrowUp } from 'lucide-react';
 import { useI18n } from '@/i18n';
 import { BrandLogo } from '@/components/BrandLogo';
+import { LegalLink } from '@/components/LegalLayer';
 
 export function Footer() {
   const { t } = useI18n();
@@ -54,9 +55,31 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-slate-deep">
-            © {new Date().getFullYear()} BOMERGRUP {t('footer.rights')}
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+            <p className="text-[12px] text-slate-deep">
+              © {new Date().getFullYear()} BOMERGRUP {t('footer.rights')}
+            </p>
+            <div className="flex items-center gap-4">
+              <LegalLink
+                doc="privacy"
+                className="text-[11px] uppercase tracking-[0.1em] text-slate-deep hover:text-silver-mist transition-colors"
+              >
+                {t('legal.privacy')}
+              </LegalLink>
+              <LegalLink
+                doc="terms"
+                className="text-[11px] uppercase tracking-[0.1em] text-slate-deep hover:text-silver-mist transition-colors"
+              >
+                {t('legal.terms')}
+              </LegalLink>
+              <LegalLink
+                doc="cookies"
+                className="text-[11px] uppercase tracking-[0.1em] text-slate-deep hover:text-silver-mist transition-colors"
+              >
+                {t('legal.cookies')}
+              </LegalLink>
+            </div>
+          </div>
           <a
             href="#top"
             className="text-[11px] uppercase tracking-[0.12em] text-silver-mist hover:text-platinum transition-colors inline-flex items-center gap-2"
