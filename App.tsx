@@ -12,8 +12,11 @@ import { Partnerships } from '@/components/Partnerships.tsx';
 import { Contact } from '@/components/Contact.tsx';
 import { Footer } from '@/components/Footer.tsx';
 import { LegalLayer } from '@/components/LegalLayer';
+import { useVisitTracking } from '@/hooks/useVisitTracking';
 
 export default function App() {
+  useVisitTracking('home');
+
   return (
     <LegalLayer>
       <div className="min-h-screen bg-liquid-abyss text-silver-mist">
