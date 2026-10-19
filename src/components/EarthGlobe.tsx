@@ -27,24 +27,25 @@ export function EarthGlobe() {
       t.anisotropy = maxAniso;
       return t;
     };
+    const dayTexture = loadTex('/textures/earth.jpg');
     const nightTexture = loadTex('/textures/earth_night.png');
     const bumpTexture = loadTex('/textures/earth_normal.jpg');
     const specTexture = loadTex('/textures/earth_specular.jpg');
     const moonTexture = loadTex('/textures/moon.jpg');
 
-    // --- Earth in night view: dark surface with glowing city lights ---
+    // --- Earth: day texture with prominent blue oceans + city lights glow ---
     const earthGeometry = new THREE.SphereGeometry(1, 128, 128);
-    const earthMaterial = new THREE.MeshStandardMaterial({
-      map: nightTexture,
+    const earthMaterial = new THREE.MeshPhongMaterial({
+      map: dayTexture,
+      specularMap: specTexture,
+      specular: new THREE.Color(0x4a7ab0),
+      shininess: 30,
       bumpMap: bumpTexture,
-      bumpScale: 0.08,
-      roughnessMap: specTexture,
-      roughness: 0.6,
-      metalness: 0.1,
-      color: new THREE.Color(0x2a3a55),
+      bumpScale: 0.05,
       emissiveMap: nightTexture,
       emissive: new THREE.Color(0xffd9a0),
-      emissiveIntensity: 1.4,
+      emissiveIntensity: 0.55,
+      color: new THREE.Color(0x8ab0d0),
     });
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
     // Set initial rotation so Turkey (lon=35) is centered facing camera
@@ -189,11 +190,11 @@ export function EarthGlobe() {
     const ambientLight = new THREE.AmbientLight(0x223344, 0.25);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xddd8cc, 0.6);
+    const dirLight = new THREE.DirectionalLight(0xfff4e0, 1.1);
     dirLight.position.set(5, 2, 3);
     scene.add(dirLight);
 
-    const rimLight = new THREE.DirectionalLight(0x3a5a8a, 0.35);
+    const rimLight = new THREE.DirectionalLight(0x3a6ab0, 0.5);
     rimLight.position.set(-5, -1, -3);
     scene.add(rimLight);
 
