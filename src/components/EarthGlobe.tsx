@@ -52,32 +52,7 @@ export function EarthGlobe() {
     earth.rotation.y = -1.75;
     scene.add(earth);
 
-    // --- Atmosphere glow halo around Earth ---
-    const atmosphereGeometry = new THREE.SphereGeometry(1.12, 64, 64);
-    const atmosphereMaterial = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        void main() {
-          float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.0);
-          gl_FragColor = vec4(0.35, 0.55, 1.0, 1.0) * intensity;
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-      depthWrite: false,
-    });
-    const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-    scene.add(atmosphere);
-
-    // --- Partner location markers ---
+// --- Partner location markers ---
     // Convert lat/lon to 3D sphere position
     const latLonToVec3 = (lat: number, lon: number, radius: number) => {
       const phi = (90 - lat) * (Math.PI / 180);
@@ -186,17 +161,21 @@ export function EarthGlobe() {
     const moonOrbitRadius = 2.8;
     const moonOrbitTilt = 0.45;
 
-    // --- Lighting (dim, to emphasize emissive city lights) ---
-    const ambientLight = new THREE.AmbientLight(0x223344, 0.25);
+    // --- Even full-sphere lighting so no terminator/shadow appears ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfff4e0, 1.1);
-    dirLight.position.set(5, 2, 3);
-    scene.add(dirLight);
+    const fillLight1 = new THREE.DirectionalLight(0xffffff, 0.9);
+    fillLight1.position.set(5, 2, 3);
+    scene.add(fillLight1);
 
-    const rimLight = new THREE.DirectionalLight(0x3a6ab0, 0.5);
-    rimLight.position.set(-5, -1, -3);
-    scene.add(rimLight);
+    const fillLight2 = new THREE.DirectionalLight(0xffffff, 0.9);
+    fillLight2.position.set(-5, -1, -3);
+    scene.add(fillLight2);
+
+    const fillLight3 = new THREE.DirectionalLight(0xffffff, 0.7);
+    fillLight3.position.set(0, -5, 0);
+    scene.add(fillLight3);
 
     // --- Starfield ---
     const starGeo = new THREE.BufferGeometry();
@@ -305,9 +284,7 @@ export function EarthGlobe() {
       container.removeChild(renderer.domElement);
       earthGeometry.dispose();
       earthMaterial.dispose();
-      atmosphereGeometry.dispose();
-      atmosphereMaterial.dispose();
-      moonGeometry.dispose();
+moonGeometry.dispose();
       moonMaterial.dispose();
       moonTexture.dispose();
       starGeo.dispose();
