@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Menu, X, Globe } from 'lucide-react';
-import { useI18n, type Lang } from '@/i18n';
-import { BrandLogo } from '@/components/BrandLogo';
+import { useLife, type Lang } from '../lib/i18n';
+import { translations } from '../lib/translations';
 
 export function Navbar() {
-  const { t, lang, setLang } = useI18n();
+  const { t, lang, setLang } = useLife();
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
   const navItems = [
     { label: t('nav.kurumsal'), href: '#kurumsal' },
-    { label: t('nav.faaliyetler'), href: '#hizmetler' },
+    { label: t('nav.faaliyetler'), href: '#faaliyetler' },
     { label: t('nav.muhendislik'), href: '#muhendislik' },
     { label: t('nav.projeler'), href: '#projeler' },
-    { label: t('nav.isbirligi'), href: '#isbirligi' },
+    { label: t('nav.birlikteizleg'), href: '#birlikteizleg' },
   ];
 
   const langs: { code: Lang; label: string }[] = [
@@ -25,63 +25,68 @@ export function Navbar() {
   ];
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    if (!langOpen) return;
-    const onClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest('[data-lang-switcher]')) setLangOpen(false);
+      if (!target.closest('.date-lang-switchery')) setLangOpen(false);
     };
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  }, [langOpen]);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-liquid-abyss/85 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-page mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#top" className="flex items-center gap-3 group">
-          <BrandLogo />
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled ? 'bg-liquid-abyss/85 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+        {/* Hareketli Logo */}
+        <a href="https://bomergrup.com" className="flex items-center">
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
+            className="w-32 h-auto object-contain"
+          >
+            <source src="/bomer-logo.mp4" type="video/mp4" />
+            Tarayıcınız video etiketini desteklemiyor.
+          </video>
         </a>
 
-        {/* Desktop nav */}
-        <ul className="hidden lg:flex items-center gap-10">
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-8">
           {navItems.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                className="nav-link text-[11px] uppercase tracking-[0.12em] text-silver-mist hover:text-platinum transition-colors"
-              >
-                {item.label}
-              </a>
-            </li>
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-[13px] uppercase tracking-[0.12em] text-silver/80 hover:text-platinum transition-colors"
+            >
+              {item.label}
+            </a>
           ))}
-        </ul>
+        </nav>
 
-        {/* Right: language */}
+        {/* Right: Language */}
         <div className="flex items-center gap-4">
-          {/* Language switcher */}
-          <div className="relative hidden md:block" data-lang-switcher>
+          <div className="relative hidden md:block date-lang-switchery">
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em] text-silver-mist hover:text-platinum transition-colors"
-              aria-label={t('nav.kurumsal') === 'Hakkımızda' ? 'Dil seçimi' : 'Language selection'}
+              className="flex items-center gap-1.5 text-[12px] uppercase tracking-[0.1em] text-silver/80 hover:text-platinum transition-colors py-1.5 px-3 rounded-lg bg-liquid-deep/50 border border-white/10"
               aria-expanded={langOpen}
             >
               <Globe size={14} />
-              {lang.toUpperCase()}
+              <span>{lang.toUpperCase()}</span>
             </button>
+            
             {langOpen && (
-              <div className="absolute top-full right-0 mt-2 bg-liquid-deep border border-white/10 rounded-small py-2 min-w-[64px]">
+              <div className="absolute top-full right-0 mt-2 bg-liquid-deep border border-white/10 rounded-xl overflow-hidden shadow-2xl py-2 min-w-[120px]">
                 {langs.map((l) => (
                   <button
                     key={l.code}
@@ -89,8 +94,8 @@ export function Navbar() {
                       setLang(l.code);
                       setLangOpen(false);
                     }}
-                    className={`block w-full px-4 py-1.5 text-[11px] uppercase tracking-[0.1em] text-left transition-colors ${
-                      lang === l.code ? 'text-platinum' : 'text-slate-deep hover:text-silver-mist'
+                    className={`w-full text-left px-4 py-2 text-[12px] uppercase tracking-[0.1em] transition-colors ${
+                      lang === l.code ? 'bg-liquid text-platinum' : 'text-slate-deep hover:text-silver'
                     }`}
                   >
                     {l.label}
@@ -100,49 +105,54 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Mobile toggle */}
+          {/* Mobile Toggle */}
           <button
-            onClick={() => setOpen(!open)}
-            className="lg:hidden text-platinum p-2"
-            aria-label={open ? 'Menüyü kapat' : 'Menüyü aç'}
-            aria-expanded={open}
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden p-2 text-platinum"
+            aria-label={isOpen ? "Menüyü kapat" : "Menüyü aç"}
+            aria-expanded={isOpen}
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </nav>
+      </div>
 
       {/* Mobile menu */}
-      {open && (
+      {isOpen && (
         <div className="lg:hidden bg-liquid-deep border-t border-white/5">
-          <ul className="px-6 py-6 flex flex-col gap-5">
+          <div className="px-6 py-4 flex flex-col gap-4">
             {navItems.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-[13px] uppercase tracking-[0.12em] text-silver-mist hover:text-platinum transition-colors"
-                >
-                  {item.label}
-                </a>
-              </li>
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="text-[13px] uppercase tracking-[0.12em] text-silver hover:text-platinum transition-colors"
+              >
+                {item.label}
+              </a>
             ))}
+            
             {/* Mobile language switcher */}
-            <li className="flex items-center gap-3 pt-2">
-              <Globe size={16} className="text-slate-deep" />
-              {langs.map((l) => (
-                <button
-                  key={l.code}
-                  onClick={() => setLang(l.code)}
-                  className={`text-[11px] uppercase tracking-[0.1em] px-3 py-1.5 rounded-small ${
-                    lang === l.code ? 'bg-liquid-kelp text-platinum' : 'text-slate-deep'
-                  }`}
-                >
-                  {l.label}
-                </button>
-              ))}
-            </li>
-          </ul>
+            <div className="pt-2 border-t border-white/5 flex items-center gap-2">
+              <span className="text-[10px] text-slate-deep uppercase">Dil / Language:</span>
+              <div className="flex gap-1">
+                {langs.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => {
+                      setLang(l.code);
+                      setIsOpen(false);
+                    }}
+                    className={`px-2.5 py-1 rounded text-[11px] uppercase transition-colors ${
+                      lang === l.code ? 'bg-liquid text-platinum' : 'text-slate-deep'
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </header>
